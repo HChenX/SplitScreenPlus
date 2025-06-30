@@ -1,0 +1,85 @@
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+android {
+    Properties properties = new Properties()
+    InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+    properties.load(inputStream)
+    def keyKeyStorePath = properties.getProperty("keyStoreFile") ?: System.getenv("KEYSTORE_PATH")
+    def keyKeyStoreFile = null
+    def keyKeyStorePassword = null
+    def keyKeyAlias = null
+    def keyKeyAliasPassword = null
+    if (keyKeyStorePath != null) {
+        keyKeyStoreFile = file(keyKeyStorePath)
+        keyKeyStorePassword = properties.getProperty('keyStorePassword') ?: System.getenv("KEYSTORE_PASS")
+        keyKeyAlias = properties.getProperty('keyAlias') ?: System.getenv("KEY_ALIAS")
+        keyKeyAliasPassword = properties.getProperty('keyAliasPassword') ?: System.getenv("KEY_PASSWORD")
+    }
+
+    signingConfigs {
+        release {
+            if (keyKeyStorePath != null) {
+                storeFile keyKeyStoreFile
+                storePassword keyKeyStorePassword
+                keyAlias keyKeyAlias
+                keyPassword keyKeyAliasPassword
+            }
+            enableV2Signing true
+            enableV3Signing true
+            enableV4Signing true
+        }
+
+        debug {
+            if (keyKeyStorePath != null) {
+                storeFile keyKeyStoreFile
+                storePassword keyKeyStorePassword
+                keyAlias keyKeyAlias
+                keyPassword keyKeyAliasPassword
+            }
+            enableV2Signing true
+            enableV3Signing true
+            enableV4Signing true
+        }
+    }
+
+    namespace 'com.hchen.cherry.splitscreenplus'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.hchen.cherry.splitscreenplus"
+        minSdk 33
+        targetSdk 35
+        //noinspection HighAppVersionCode
+        versionCode 2025063000
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+}
+
+dependencies {
+    compileOnly 'de.robv.android.xposed:api:82'
+    implementation 'com.github.HChenX:HookTool:v.2.1.3'
+    implementation 'androidx.annotation:annotation:1.9.1'
+}
