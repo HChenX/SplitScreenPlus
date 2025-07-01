@@ -22,5 +22,6 @@
 
 -keep class * extends com.hchen.cherry.splitscreenplus.InitHook
 -keep class * extends com.hchen.hooktool.HCEntrance
+-keep class * extends com.hchen.hooktool.HCBase
 -keep class com.hchen.cherry.splitscreenplus.**
 -keep class com.hchen.cherry.splitscreenplus.**$*

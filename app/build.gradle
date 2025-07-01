@@ -3,6 +3,8 @@ plugins {
 }
 
 android {
+    def apk = "SplitScreenPlus"
+
     Properties properties = new Properties()
     InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
     properties.load(inputStream)
@@ -52,8 +54,8 @@ android {
         minSdk 33
         targetSdk 35
         //noinspection HighAppVersionCode
-        versionCode 2025063000
-        versionName "1.0"
+        versionCode 2025070100
+        versionName "2.0"
     }
 
     buildTypes {
@@ -75,6 +77,14 @@ android {
 
     buildFeatures {
         buildConfig true
+    }
+
+    android {
+        applicationVariants.configureEach { variant ->
+            variant.outputs.configureEach { output ->
+                outputFileName = "${apk}-v${variant.versionName}(${variant.versionCode})_${variant.buildType.name}.apk"
+            }
+        }
     }
 }
 

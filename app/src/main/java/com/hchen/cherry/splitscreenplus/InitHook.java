@@ -55,6 +55,6 @@ public class InitHook extends HCEntrance {
     @Override
     public void onLoadPackage(@NonNull XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
         HCInit.initLoadPackageParam(loadPackageParam);
-        new SplitScreenPlus().onLoadPackage();
+        new SplitScreenPlus().onApplication().onLoadPackage();
     }
 }
